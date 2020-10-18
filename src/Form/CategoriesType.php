@@ -13,6 +13,7 @@ class CategoriesType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('description')
             ->add('createdAt')
         ;
     }
