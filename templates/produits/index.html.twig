@@ -9,9 +9,11 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>categorie</th>
                 <th>Nom</th>
                 <th>Quantite</th>
                 <th>Prix</th>
+                <th>fournisseur</th>
                 <th>Description</th>
                 <th>actions</th>
             </tr>
@@ -20,9 +22,15 @@
         {% for produit in produits %}
             <tr>
                 <td>{{ produit.id }}</td>
+                <td>
+                    <a href="{{ path('categories_show', {'id': produit.categorie.id}) }}">{{ produit.categorie.nom }}</a>
+                </td>
                 <td>{{ produit.nom }}</td>
                 <td>{{ produit.quantite }}</td>
                 <td>{{ produit.prix }}</td>
+                <td>
+                    <a href="{{ path('fournisseurs_show', {'id': produit.fournisseur.id }) }}">{{ produit.fournisseur.societe  }}</a>
+                </td>
                 <td>{{ produit.description }}</td>
                 <td>
                     <a href="{{ path('produits_show', {'id': produit.id}) }}">show</a>
