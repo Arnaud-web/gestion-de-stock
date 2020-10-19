@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClientsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class Clients
      * @ORM\Column(type="string", length=255)
      */
     private $mail;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Commandes::class, mappedBy="client")
+     */
+    private $commandes;
+
+    public function __construct()
+    {
+        $this->commandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,37 @@ class Clients
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commandes[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommandes(Commandes $commandes): self
+    {
+        if (!$this->commandes->contains($commandes)) {
+            $this->commandes[] = $commandes;
+            $commandes->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandes(Commandes $commandes): self
+    {
+        if ($this->commandes->contains($commandes)) {
+            $this->commandes->removeElement($commandes);
+            // set the owning side to null (unless already changed)
+            if ($commandes->getClient() === $this) {
+                $commandes->setClient(null);
+            }
+        }
 
         return $this;
     }
