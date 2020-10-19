@@ -59,9 +59,15 @@ class Produits
      */
     private $commandes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Images::class, inversedBy="produits")
+     */
+    private $image;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
+        $this->image = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,6 +185,32 @@ class Produits
             if ($commande->getProduit() === $this) {
                 $commande->setProduit(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Images[]
+     */
+    public function getImage(): Collection
+    {
+        return $this->image;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->image->contains($image)) {
+            $this->image[] = $image;
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->image->contains($image)) {
+            $this->image->removeElement($image);
         }
 
         return $this;
