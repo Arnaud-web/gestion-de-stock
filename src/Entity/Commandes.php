@@ -42,6 +42,16 @@ class Commandes
      */
     private $employe;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Produits::class, inversedBy="commandes")
+     */
+    private $produit;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nombres;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +113,30 @@ class Commandes
     public function setEmploye(?Employes $employe): self
     {
         $this->employe = $employe;
+
+        return $this;
+    }
+
+    public function getProduit(): ?Produits
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produits $produit): self
+    {
+        $this->produit = $produit;
+
+        return $this;
+    }
+
+    public function getNombres(): ?int
+    {
+        return $this->nombres;
+    }
+
+    public function setNombres(int $nombres): self
+    {
+        $this->nombres = $nombres;
 
         return $this;
     }

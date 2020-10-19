@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Clients;
 use App\Entity\Employes;
 use App\Entity\Commandes;
+use App\Entity\Produits;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,6 +20,11 @@ class CommandesType extends AbstractType
             ->add('dataDeLivraison')
             ->add('destinataire')
             ->add('client')
+            ->add('nombres')
+            ->add('produit', EntityType::class, [
+                'class'=> Produits::class,
+                'choice_label' => 'nom'
+            ])
             ->add('client', EntityType::class, [
                 'class'=> Clients::class,
                 'choice_label' => 'nom'

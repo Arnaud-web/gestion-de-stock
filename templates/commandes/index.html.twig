@@ -12,6 +12,8 @@
                 <th>Client</th>
                 <th>DateDeCommandes</th>
                 <th>DataDeLivraison</th>
+                <th>produit</th>
+                <th>nombres</th>
                 <th>Destinataire</th>
                 <th>Employe</th>
                 <th>actions</th>
@@ -26,6 +28,10 @@
                 </td>
                 <td>{{ commande.dateDeCommandes ? commande.dateDeCommandes|date('Y-m-d') : '' }}</td>
                 <td>{{ commande.dataDeLivraison ? commande.dataDeLivraison|date('Y-m-d') : '' }}</td>
+                 <td>
+                    <a href="{{ path('produits_show', {'id':commande.produit.id}) }}">{{  commande.produit.nom  }}</a>
+                </td>
+                <td>{{ commande.nombres }}</td>
                 <td>{{ commande.destinataire }}</td>
                  <td>
                     <a href="{{ path('employes_show', {'id':commande.employe.id}) }}">{{  commande.employe.nom  }}</a>
