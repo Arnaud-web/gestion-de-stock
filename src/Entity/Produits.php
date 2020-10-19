@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=ProduitsRepository::class)
  */
 class Produits
-{
+{ public $image_temp;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -63,6 +63,11 @@ class Produits
      * @ORM\ManyToMany(targetEntity=Images::class, inversedBy="produits")
      */
     private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $photo;
 
     public function __construct()
     {
@@ -212,6 +217,18 @@ class Produits
         if ($this->image->contains($image)) {
             $this->image->removeElement($image);
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }

@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Produits;
 use App\Form\ProduitsType;
 use App\Repository\ProduitsRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/produits")
@@ -32,10 +33,17 @@ class ProduitsController extends AbstractController
     {
         $produit = new Produits();
         $form = $this->createForm(ProduitsType::class, $produit);
+        $form->add('image_temp', FileType::class, array(
+            'label' => 'Votre photo d\'ulustration'
+        ));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $image_temp = $produit->image_temp;
+            $imageName = md5(uniqid()).'.'.$image_temp->guessExtension();
+            $image_temp->move($this->getParameter('upload_photo_produit_directory'),$imageName);
+            $produit->setPhoto($imageName);
             $entityManager->persist($produit);
             $entityManager->flush();
 
